@@ -1,3 +1,3 @@
-# zer0day
+# zer0day 👻
 
 hacking news, bitcoin and more...

@@ -1,10 +1,11 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
-import 'package:zer0day/screens/authentication/login.dart';
-import 'package:zer0day/screens/authentication/password_reset.dart';
-import 'package:zer0day/screens/authentication/sign_up.dart';
-import 'package:zer0day/screens/welcome/on_boarding.dart';
-import 'package:zer0day/screens/welcome/splash.dart';
+import 'package:zer0day/pages/welcome/splash.dart';
+import 'package:zer0day/pages/authentication/login.dart';
+import 'package:zer0day/pages/authentication/password_reset.dart';
+import 'package:zer0day/pages/authentication/sign_up.dart';
+import 'package:zer0day/pages/welcome/on_boarding.dart';
+import 'package:zer0day/pages/welcome/splash.dart';
 
 void main() => runApp(MyApp());
 

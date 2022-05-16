@@ -1,194 +1,124 @@
-import 'package:concentric_transition/concentric_transition.dart';
+import 'package:fancy_on_boarding/fancy_on_boarding.dart';
 import 'package:flutter/material.dart';
+import 'package:zer0day/constant/color.dart';
+import 'package:zer0day/pages/dashboard/home.dart';
 
-final pages = [
-  const PageData(
-    icon: Icons.format_size,
-    title: "Choose your\ninterests",
-    textColor: Colors.white,
-    bgColor: Color(0xFFFDBFDD),
-  ),
-  const PageData(
-    icon: Icons.hdr_weak,
-    title: "Drag and\ndrop to move",
-    bgColor: Color(0xFFFFFFFF),
-  ),
-  const PageData(
-    icon: Icons.bubble_chart,
-    title: "Local news\nstories",
-    bgColor: Color(0xFF0043D0),
-    textColor: Colors.white,
-  ),
-];
+void main() => runApp(new OnBoarding());
 
-class OnboardingExample extends StatelessWidget {
-  const OnboardingExample({Key? key}) : super(key: key);
-
+class OnBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: ConcentricPageView(
-        colors: pages.map((p) => p.bgColor).toList(),
-        radius: screenWidth * 0.12,
-        curve: Curves.ease,
-        nextButtonBuilder: (context) => Icon(
-          Icons.navigate_next,
-          size: screenWidth * 0.1,
-        ),
-        // itemCount: pages.length,
-        duration: const Duration(milliseconds: 1500),
-        // opacityFactor: 2.0,
-        // scaleFactor: 0.2,
-        // verticalPosition: 0.7,
-        // direction: Axis.vertical,
-        // itemCount: pages.length,
-        // physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (index) {
-          final page = pages[index % pages.length];
-          return SafeArea(
-            child: _Page(page: page),
-          );
-        },
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      //Add Route to the main Page.
+      routes: {'/mainPage': (context) => Home()},
+      title: 'Zer0Day',
+      theme: ThemeData(primarySwatch: Colors.teal, fontFamily: 'Nunito'),
+      home: OnBoarding(title: 'zer0day'),
     );
   }
 }
 
-class PageData {
+class OnBoarding extends StatefulWidget {
+  OnBoarding({Key? key, this.title}) : super(key: key);
+
   final String? title;
-  final IconData? icon;
-  final Color bgColor;
-  final Color textColor;
-
-  const PageData({
-    this.title,
-    this.icon,
-    this.bgColor = Colors.white,
-    this.textColor = Colors.black,
-  });
-}
-
-class _Page extends StatelessWidget {
-  final PageData page;
-
-  const _Page({Key? key, required this.page}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    space(double p) => SizedBox(height: screenHeight * p / 100);
-    return Column(
-      children: [
-        space(10),
-        _Image(
-          page: page,
-          size: 190,
-          iconSize: 170,
-        ),
-        space(8),
-        _Text(
-          page: page,
+  _OnBoardingState createState() => new _OnBoardingState();
+}
+
+class _OnBoardingState extends State<OnBoarding> {
+  //Create a list of PageModel to be set on the onBoarding Screens.
+  final pageList = [
+    PageModel(
+        color: NowUIColors.anacolor,
+        heroImagePath: 'assets/images/1.png',
+        title: Text('Sunucu Güvenliği',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              fontFamily: 'Nunito',
+              fontSize: 27.0,
+            )),
+        body: Text('Sunucular için tüm güvenlik ve açık bulma yöntemleri.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Nunito',
+              fontSize: 14.0,
+            )),
+        iconImagePath: 'assets/images/1.png'),
+    PageModel(
+        color: NowUIColors.anasari,
+        heroImagePath: 'assets/images/2.png',
+        title: Text('Veri Tabanı Güvenliği',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              fontFamily: 'Nunito',
+              fontSize: 27.0,
+            )),
+        body: Text('Tüm veri tabanı açıkları ve kullanıcı zaafiyetleri.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14.0,
+            )),
+        iconImagePath: 'assets/images/2.png'),
+    PageModel(
+      color: NowUIColors.anacolor,
+      heroImagePath: 'assets/images/3.png',
+      title: Text('Wi-Fi',
           style: TextStyle(
-            fontSize: screenHeight * 0.046,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Text extends StatelessWidget {
-  const _Text({
-    Key? key,
-    required this.page,
-    this.style,
-  }) : super(key: key);
-
-  final PageData page;
-  final TextStyle? style;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      page.title ?? '',
-      style: TextStyle(
-        color: page.textColor,
-        fontWeight: FontWeight.w600,
-        fontFamily: 'Helvetica',
-        letterSpacing: 0.0,
-        fontSize: 18,
-        height: 1.2,
-      ).merge(style),
-      textAlign: TextAlign.center,
-    );
-  }
-}
-
-class _Image extends StatelessWidget {
-  const _Image({
-    Key? key,
-    required this.page,
-    required this.size,
-    required this.iconSize,
-  }) : super(key: key);
-
-  final PageData page;
-  final double size;
-  final double iconSize;
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+            fontFamily: 'Nunito',
+            fontSize: 27.0,
+          )),
+      body: Text('Kablosuz ağlar için tüm hacking yöntemleri.',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Nunito',
+            fontSize: 14.0,
+          )),
+      iconImagePath: 'assets/images/3.png',
+    ),
+    PageModel(
+      color: NowUIColors.anasari,
+      heroImagePath: 'assets/images/5.png',
+      title: Text('Tools',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontFamily: 'Nunito',
+            color: Colors.white,
+            fontSize: 27.0,
+          )),
+      body: Text('Tüm araçlar ve onlar hakkında bilgiler.',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Nunito',
+            fontSize: 14.0,
+          )),
+      iconImagePath: 'assets/images/5.png',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = page.bgColor
-        // .withBlue(page.bgColor.blue - 40)
-        .withGreen(page.bgColor.green + 20)
-        .withRed(page.bgColor.red - 100)
-        .withAlpha(90);
-
-    final icon1Color =
-        page.bgColor.withBlue(page.bgColor.blue - 10).withGreen(220);
-    final icon2Color = page.bgColor.withGreen(66).withRed(77);
-    final icon3Color = page.bgColor.withRed(111).withGreen(220);
-
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-        color: bgColor,
-      ),
-      child: Stack(
-        clipBehavior: Clip.none,
-        fit: StackFit.expand,
-        children: [
-          Positioned.fill(
-            child: RotatedBox(
-              quarterTurns: 2,
-              child: Icon(
-                page.icon,
-                size: iconSize + 20,
-                color: icon1Color,
-              ),
-            ),
-            right: -5,
-            bottom: -5,
-          ),
-          Positioned.fill(
-            child: RotatedBox(
-              quarterTurns: 5,
-              child: Icon(
-                page.icon,
-                size: iconSize + 20,
-                color: icon2Color,
-              ),
-            ),
-          ),
-          Icon(
-            page.icon,
-            size: iconSize,
-            color: icon3Color,
-          ),
-        ],
+    return Scaffold(
+      //Pass pageList and the mainPage route.
+      body: FancyOnBoarding(
+        doneButtonText: "Başla",
+        skipButtonText: "Geç",
+        pageList: pageList,
+        onDoneButtonPressed: () =>
+            Navigator.of(context).pushReplacementNamed('/home'),
+        onSkipButtonPressed: () =>
+            Navigator.of(context).pushReplacementNamed('/home'),
       ),
     );
   }

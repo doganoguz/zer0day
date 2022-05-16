@@ -3,8 +3,10 @@ import 'dart:ui' show Color;
 class NowUIColors {
   static const Color black = Color(0xFF000000);
 
+  static const Color anacolor = Color(0xFF16171D);
+  static const Color kuturenk = Color(0xFF242424);
+  static const Color anasari = Color(0xFFE9E00C);
   static const Color btnyedek = Color(0xFF382A40);
-
   static const Color homeclr = Color(0xFFf7faff);
   static const Color card = Color(0xFFF252836);
   static const Color white = Color(0xFFFFFFFF);

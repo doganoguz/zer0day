@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:zer0day/pages/authentication/login.dart';
 import 'package:zer0day/pages/authentication/password_reset.dart';
 import 'package:zer0day/pages/authentication/sign_up.dart';
+import 'package:zer0day/pages/dashboard/home.dart';
 import 'package:zer0day/pages/welcome/on_boarding.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -36,11 +36,11 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(fontFamily: 'Montserrat-Regular'),
         initialRoute: '/onboarding',
         routes: <String, WidgetBuilder>{
-          '/onboarding': (BuildContext context) => new OnboardingExample(),
-
+          '/onboarding': (BuildContext context) => new OnBoarding(),
           '/login': (BuildContext context) => new Login(),
           '/passwordreset': (BuildContext context) => new PasswordReset(),
           '/signup': (BuildContext context) => new SignUp(),
+          '/home': (BuildContext context) => new Home(),
         });
   }
 }

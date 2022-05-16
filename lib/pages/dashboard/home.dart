@@ -1,10 +1,9 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:iconsax/iconsax.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:page_transition/page_transition.dart';
@@ -12,6 +11,9 @@ import 'package:flutter/services.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:zer0day/constant/color.dart';
+import 'package:zer0day/model/article.dart';
+import 'package:zer0day/utils/api.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -32,18 +34,25 @@ final List<String> imageList = [
 ];
 
 final _advancedDrawerController = AdvancedDrawerController();
+List<Articles>? articles = [];
+const double iconSize = 18;
 
 class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    NewsService.getNews().then((value) {
+      setState(() {
+        articles = value;
+      });
+    });
     _hideMenu();
   }
 
   @override
   Widget build(BuildContext context) {
     return AdvancedDrawer(
-      backdropColor: NowUIColors.homeclr,
+      backdropColor: NowUIColors.anacolor,
       controller: _advancedDrawerController,
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 300),
@@ -53,10 +62,10 @@ class _HomeState extends State<Home> {
       childDecoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: NowUIColors.yesilkoyu,
-            blurRadius: 20.0,
-            spreadRadius: 10.0,
-            offset: Offset(-3.0, 0.0),
+            color: NowUIColors.anasari,
+            blurRadius: 19.0,
+            spreadRadius: 8.0,
+            offset: Offset(-2.0, 0.0),
           ),
         ],
         borderRadius: BorderRadius.circular(30),
@@ -72,7 +81,7 @@ class _HomeState extends State<Home> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: AvatarGlow(
-                    glowColor: NowUIColors.yesilkoyu,
+                    glowColor: NowUIColors.anasari,
                     endRadius: 70.0,
                     duration: Duration(milliseconds: 3000),
                     repeat: true,
@@ -83,9 +92,9 @@ class _HomeState extends State<Home> {
                       elevation: 8.0,
                       shape: CircleBorder(),
                       child: CircleAvatar(
-                        backgroundColor: Colors.grey[100],
+                        backgroundColor: NowUIColors.anasari,
                         child: Image.asset(
-                          'assets/imgs/menu.png',
+                          'assets/images/menu.png',
                           height: 50,
                         ),
                         radius: 40.0,
@@ -97,9 +106,7 @@ class _HomeState extends State<Home> {
                   color: Colors.white70,
                 ),
                 ListTile(
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                   leading: Icon(Iconsax.home),
                   title: Text(
                     'Home',
@@ -110,10 +117,8 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 ListTile(
-                  onTap: () {
-
-                  },
-                  leading: Icon(Iconsax.home),
+                  onTap: () {},
+                  leading: Icon(Iconsax.user),
                   title: Text(
                     'Profile',
                     style: TextStyle(
@@ -235,9 +240,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 ListTile(
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                   leading: Icon(Iconsax.logout),
                   title: Text(
                     'Log Out',
@@ -256,135 +259,83 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
             elevation: 0.0,
             titleSpacing: 10.0,
-            backgroundColor: NowUIColors.statusbar,
+            backgroundColor: NowUIColors.anacolor,
             leading: new IconButton(
               icon: new Icon(Iconsax.flash),
               onPressed: () {
                 _handleMenuButtonPressed();
               },
             ),
-            actions: <Widget>[
-
-            ],
+            actions: <Widget>[],
             centerTitle: true,
             title: new Text(
-              "Dashboard",
+              "Akış",
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'Nunito',
               ),
             )),
-        backgroundColor: NowUIColors.homeclr,
-        body: SingleChildScrollView(
-          child: Form(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 25,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 20.0),
-                  alignment: Alignment.centerLeft,
-                  child: Text("✨\u200d Highlights",
-                      style: TextStyle(
-                        color: NowUIColors.acikyesil,
-                        fontSize: 15,
-                      )),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                GFItemsCarousel(
-                  rowCount: 3,
-                  children: imageList.map(
-                    (url) {
-                      return Container(
-                        margin: EdgeInsets.all(5.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                          child: Image.network(url,
-                              fit: BoxFit.cover, width: 1000.0),
-                        ),
-                      );
-                    },
-                  ).toList(),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: const [
-                    Flexible(
-                      child: TextScroll(
-                        '🔥\u200d Pre-Sale Token Review and Buy Now | 🎁\u200d DogiCoin is Airdropping 10 Trade Tokens to Their Community Members. | ⚡\u200d No Hidden Fees. 24/7 Support. Try it Now! |',
-                        style: TextStyle(
-                          color: NowUIColors.anasite,
-                          fontSize: 13,
-                        ),
-                        velocity: Velocity(pixelsPerSecond: Offset(40, 0)),
-                      ),
+        backgroundColor: NowUIColors.anacolor,
+        body: Center(
+            child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: articles!.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(13),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(right: 10.0),
-                  alignment: Alignment.centerRight,
-                  child: new GestureDetector(
-                    onTap: () {
-
-                    },
-                    child:
-                        new Text("🔥\u200d Pre-Sale Token Review and Buy Now ",
-                            style: TextStyle(
-                              color: NowUIColors.acikyesil,
-                              fontSize: 13,
-                            )),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    CupertinoButton(
-                      child: Container(
-                        height: 160,
-                        width: 160,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/imgs/manager.png"),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.network(
+                          articles![index].urlToImage ??
+                              'https://i0.wp.com/designermenus.com.au/wp-content/uploads/2016/02/icon-None.png?w=300&ssl=1',
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.arrow_drop_down_circle),
+                          title: Text(articles![index].title ?? ''),
+                          subtitle: Text(articles![index].author ?? ''),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(articles![index].description ?? ''),
+                        ),
+                        Container(
+                          height: 35.0,
+                          width: 255.0,
+                          child: OutlinedButton.icon(
+                            style: OutlinedButton.styleFrom(
+                              primary: NowUIColors.anacolor,
+                              backgroundColor: NowUIColors.anacolor,
+                              side: BorderSide(
+                                  color: NowUIColors.black, width: 2),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25))),
                             ),
-                            borderRadius: BorderRadius.circular(10),
-                            color: NowUIColors.statusbar),
-                        child: Container(
-                          padding: new EdgeInsets.only(top: 125.0),
-                          child: Text(
-                            "Miner",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: NowUIColors.homeclr,
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w500),
+                            label: Text('Devamını Oku',
+                                style: TextStyle(
+                                  color: NowUIColors.beyaz,
+                                  fontSize: 12,
+                                  fontFamily: 'Montserrat',
+                                )),
+                            icon: Icon(Icons.keyboard_arrow_right,
+                                size: iconSize, color: NowUIColors.black),
+                            onPressed: () async {
+                              await launch(articles![index].url ?? '');
+                            },
                           ),
                         ),
-                      ),
-                      onPressed: () {
-
-                      },
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
                     ),
-
-                  ],
-                ),
-
-              ],
-            ),
-          ),
-        ),
+                  );
+                })),
       ),
     );
   }

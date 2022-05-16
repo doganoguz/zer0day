@@ -1,15 +1,29 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class Api extends StatefulWidget {
-  Api({Key? key}) : super(key: key);
+import 'package:http/http.dart' as http;
 
-  @override
-  State<Api> createState() => _ApiState();
-}
+import 'package:zer0day/model/news.dart';
+import 'package:zer0day/model/article.dart';
 
-class _ApiState extends State<Api> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+class NewsService {
+  static NewsService _singleton = NewsService._internal();
+  NewsService._internal();
+
+  factory NewsService() {
+    return _singleton;
+  }
+
+  static Future<List<Articles>?> getNews() async {
+    String url =
+        'http://newsapi.org/v2/top-headlines?country=tr&category=technology&apiKey=9c5b65dc818c46b38d353f0dd899f754';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.body.isNotEmpty) {
+      final responseJson = json.decode(response.body);
+      News news = News.fromJson(responseJson);
+      return news.articles;
+    }
+    return null;
   }
 }

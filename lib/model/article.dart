@@ -44,6 +44,7 @@ class Articles {
     data['urlToImage'] = this.urlToImage;
     data['publishedAt'] = this.publishedAt;
     data['content'] = this.content;
+
     return data;
   }
 }
